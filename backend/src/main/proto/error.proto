@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package com.demo.univer.gprc.error;
+
+option java_package = "com.demo.univer.gprc.error";
+option java_multiple_files = true;
+
+enum ErrorCode {
+  GROUP_NOT_FOUND = 0;
+  GROUP_NAME_FORMAT_INVALID = 1;
+  GROUP_NAME_NOT_UNIQUE = 2;
+  STUDENT_FIO_FORMAT_INVALID = 3;
+}
+
+message ErrorResponse {
+  google.protobuf.Timestamp time = 1;
+  ErrorCode errorCode = 2;
+  string errorDescription = 3;
+}

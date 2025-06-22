@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package com.demo.univer.gprc.group;
+
+option java_package = "com.demo.univer.gprc.group";
+option java_multiple_files = true;
+
+message Group {
+  int64 id = 1;
+  string name = 2;
+  int32 memberCount = 3;
+}
+
+message GetGroupsRequest {
+}
+
+message GetGroupsResponse {
+  repeated Group group = 1;
+}
+
+message CreateGroupRequest {
+  string name = 1;
+}
+
+message CreateGroupResponse {
+  Group group = 1;
+}
+
+service GroupService {
+  rpc getGroups(GetGroupsRequest) returns (GetGroupsResponse);
+  rpc createGroup(CreateGroupRequest) returns (CreateGroupResponse);
+}
