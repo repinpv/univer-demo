@@ -10,6 +10,11 @@ option java_multiple_files = true;
 message Group {
   int64 id = 1;
   string name = 2;
+}
+
+message GroupAndStat {
+  int64 id = 1;
+  string name = 2;
   int32 memberCount = 3;
 }
 
@@ -17,7 +22,7 @@ message GetGroupsRequest {
 }
 
 message GetGroupsResponse {
-  repeated Group group = 1;
+  repeated GroupAndStat group = 1;
 }
 
 message CreateGroupRequest {

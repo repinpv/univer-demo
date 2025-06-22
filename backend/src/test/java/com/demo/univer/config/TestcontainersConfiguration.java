@@ -9,12 +9,10 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfiguration {
 
-	private static final AtomicInteger grpcPort = new AtomicInteger(9090);
+//	private static final AtomicInteger grpcPort = new AtomicInteger(9090);
 
 	@Bean
 	@ServiceConnection
@@ -29,7 +27,12 @@ public class TestcontainersConfiguration {
 		registry.add("spring.datasource.username", mysqlContainer::getUsername);
 		registry.add("spring.datasource.password", mysqlContainer::getPassword);
 
-		registry.add("grpc.server.port", grpcPort::getAndIncrement);
+//TODO This don't work. Need good way to solve grpc port conflict.
+//		registry.add("spring.grpc.server.port", () -> {
+//			int port = grpcPort.getAndIncrement();
+//			System.out.println("TestcontainersConfiguration.dynamicProperties: grpcPort.getAndIncrement():" + port);
+//			return port;
+//		});
 	}
 
 }

@@ -18,6 +18,7 @@ public class StudentMapper {
 
         return Student.newBuilder()
                 .setId(studentEntity.getId())
+                .setGroupId(studentEntity.getGroupId())
                 .setFio(studentEntity.getFio())
                 .setJoinDate(joinDate)
                 .build();

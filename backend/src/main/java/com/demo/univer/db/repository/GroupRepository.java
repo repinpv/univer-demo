@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GroupRepository extends CrudRepository<GroupEntity, Long> {
+    // workaround for mysql id sequence
     @Query("SELECT LAST_INSERT_ID()")
     long getLastId();
 }

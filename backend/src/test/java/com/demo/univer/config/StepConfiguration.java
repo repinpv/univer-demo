@@ -17,6 +17,7 @@ public class StepConfiguration {
             GrpcChannelFactory channels,
             GrpcServerProperties grpcServerProperties
     ) {
+        System.out.println("StepConfiguration.groupServiceBlockingStub: grpcServerProperties.getPort():" + grpcServerProperties.getPort());
         return GroupServiceGrpc.newBlockingStub(
                 channels.createChannel(
                         "0.0.0.0:" + grpcServerProperties.getPort()));
@@ -27,6 +28,7 @@ public class StepConfiguration {
             GrpcChannelFactory channels,
             GrpcServerProperties grpcServerProperties
     ) {
+        System.out.println("StepConfiguration.studentServiceBlockingStub: grpcServerProperties.getPort():" + grpcServerProperties.getPort());
         return StudentServiceGrpc.newBlockingStub(
                 channels.createChannel(
                         "0.0.0.0:" + grpcServerProperties.getPort()));

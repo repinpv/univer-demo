@@ -7,6 +7,7 @@ import com.demo.univer.gprc.group.CreateGroupResponse;
 import com.demo.univer.gprc.group.GetGroupsRequest;
 import com.demo.univer.gprc.group.GetGroupsResponse;
 import com.demo.univer.gprc.group.Group;
+import com.demo.univer.gprc.group.GroupAndStat;
 import com.demo.univer.gprc.group.GroupServiceGrpc;
 import com.demo.univer.mapper.GroupMapper;
 import io.grpc.stub.StreamObserver;
@@ -23,7 +24,7 @@ public class GroupGrpcService extends GroupServiceGrpc.GroupServiceImplBase {
 
     @Override
     public void getGroups(GetGroupsRequest request, StreamObserver<GetGroupsResponse> responseObserver) {
-        List<Group> groups = groupDbService.getAllGroups()
+        List<GroupAndStat> groups = groupDbService.getAllGroups()
                 .stream()
                 .map(groupMapper::map)
                 .toList();

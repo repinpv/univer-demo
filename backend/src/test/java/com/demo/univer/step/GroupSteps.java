@@ -5,6 +5,7 @@ import com.demo.univer.gprc.group.CreateGroupResponse;
 import com.demo.univer.gprc.group.GetGroupsRequest;
 import com.demo.univer.gprc.group.GetGroupsResponse;
 import com.demo.univer.gprc.group.Group;
+import com.demo.univer.gprc.group.GroupAndStat;
 import com.demo.univer.gprc.group.GroupServiceGrpc;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
@@ -39,10 +40,14 @@ public class GroupSteps {
     }
 
     public void checkList(List<Group> groups) {
+        checkList(groups, List.of());
+    }
+
+    public void checkList(List<Group> groups, List<Integer> memberCounts) {
         GetGroupsRequest getGroupsRequest = GetGroupsRequest.newBuilder()
                 .build();
         GetGroupsResponse getGroupsResponse = groupServiceBlockingStub.getGroups(getGroupsRequest);
-        List<Group> responseGroups = getGroupsResponse.getGroupList();
+        List<GroupAndStat> responseGroups = getGroupsResponse.getGroupList();
         Assertions.assertEquals(groups.size(), responseGroups.size());
 
         Map<Long, Group> searchMap = groups.stream()
@@ -52,11 +57,19 @@ public class GroupSteps {
                 ));
         Assertions.assertEquals(groups.size(), searchMap.size());
 
-        for (Group responseGroup : responseGroups) {
+        for (GroupAndStat responseGroup : responseGroups) {
             Group group = searchMap.get(responseGroup.getId());
             Assertions.assertNotNull(group);
 
             Assertions.assertEquals(group.getName(), responseGroup.getName());
+        }
+
+        Assertions.assertTrue(memberCounts.size() <= responseGroups.size());
+        for (int i = 0; i < memberCounts.size(); i++) {
+            GroupAndStat groupAndStat = responseGroups.get(i);
+            int count = memberCounts.get(i);
+
+            Assertions.assertEquals(count, groupAndStat.getMemberCount());
         }
     }
 }

@@ -16,7 +16,8 @@ import org.springframework.context.annotation.Import;
 import java.time.LocalDate;
 import java.util.List;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+        "spring.grpc.server.port=9092"}) //TODO This is working. But it is not good.
 @Import({TestcontainersConfiguration.class, StepConfiguration.class})
 class StudentTests {
 
@@ -46,10 +47,11 @@ class StudentTests {
                 "Иванов Иван Иванович",
                 LocalDate.of(2024, 9, 1));
         studentSteps.checkList(group, List.of(student));
+        groupSteps.checkList(List.of(group), List.of(1));
     }
 
     @Test
-    void createTwoGroup() {
+    void createTwoStudents() {
         Group group = groupSteps.createGroup("TEST");
         Student student1 = studentSteps.createStudent(
                 group,
@@ -60,5 +62,6 @@ class StudentTests {
                 "Петров Петр Петрович",
                 LocalDate.of(2024, 8, 21));
         studentSteps.checkList(group, List.of(student1, student2));
+        groupSteps.checkList(List.of(group), List.of(2));
     }
 }

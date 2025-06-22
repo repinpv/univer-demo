@@ -3,7 +3,6 @@ package com.demo.univer.db.service.impl;
 import com.demo.univer.db.entity.StudentEntity;
 import com.demo.univer.db.repository.StudentRepository;
 import com.demo.univer.db.service.StudentDbService;
-import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +18,7 @@ public class StudentDbServiceImpl implements StudentDbService {
 
     @Override
     public List<StudentEntity> getStudents(long groupId) {
-        return Lists.newArrayList(
-                studentRepository.findAllByGroupId(groupId));
+        return studentRepository.findAllByGroupId(groupId);
     }
 
     @Override
