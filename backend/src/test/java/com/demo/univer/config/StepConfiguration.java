@@ -1,5 +1,6 @@
 package com.demo.univer.config;
 
+import com.demo.univer.error.ErrorFactory;
 import com.demo.univer.gprc.group.GroupServiceGrpc;
 import com.demo.univer.gprc.student.StudentServiceGrpc;
 import com.demo.univer.step.GroupSteps;
@@ -25,15 +26,19 @@ public class StepConfiguration {
     }
 
     @Bean
-    GroupSteps groupSteps(GroupServiceGrpc.GroupServiceBlockingStub groupServiceBlockingStub) {
-        return new GroupSteps(groupServiceBlockingStub);
+    GroupSteps groupSteps(
+            GroupServiceGrpc.GroupServiceBlockingStub groupServiceBlockingStub,
+            ErrorFactory errorFactory
+    ) {
+        return new GroupSteps(groupServiceBlockingStub, errorFactory);
     }
 
     @Bean
     StudentSteps studentSteps(
             StudentServiceGrpc.StudentServiceBlockingStub studentServiceBlockingStub,
-            TimeUtils timeUtils
+            TimeUtils timeUtils,
+            ErrorFactory errorFactory
     ) {
-        return new StudentSteps(studentServiceBlockingStub, timeUtils);
+        return new StudentSteps(studentServiceBlockingStub, timeUtils, errorFactory);
     }
 }

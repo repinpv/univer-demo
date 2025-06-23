@@ -10,6 +10,15 @@ import java.time.ZoneOffset;
 
 @Component
 public class TimeUtils {
+    public Timestamp currentTimestamp() {
+        Instant now = Instant.now();
+
+        return Timestamp.newBuilder()
+                .setSeconds(now.getEpochSecond())
+                .setNanos(now.getNano())
+                .build();
+    }
+
     public LocalDate toLocalDate(Timestamp timestamp) {
         return LocalDate.ofInstant(
                 Instant.ofEpochSecond(

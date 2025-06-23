@@ -9,4 +9,6 @@ public interface GroupDbService {
     List<GroupAndStatEntity> getAllGroups();
 
     GroupEntity create(String name);
+
+    void checkGroupExists(long groupId);
 }

@@ -1,5 +1,7 @@
 package com.demo.univer.step;
 
+import com.demo.univer.error.ErrorFactory;
+import com.demo.univer.error.ErrorType;
 import com.demo.univer.gprc.group.Group;
 import com.demo.univer.gprc.student.CreateStudentRequest;
 import com.demo.univer.gprc.student.CreateStudentResponse;
@@ -9,6 +11,7 @@ import com.demo.univer.gprc.student.Student;
 import com.demo.univer.gprc.student.StudentServiceGrpc;
 import com.demo.univer.utils.TimeUtils;
 import com.google.protobuf.Timestamp;
+import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
 public class StudentSteps {
     private final StudentServiceGrpc.StudentServiceBlockingStub studentServiceBlockingStub;
     private final TimeUtils timeUtils;
+    private final ErrorFactory errorFactory;
 
     public void checkEmptyList(Group group) {
         GetStudentsRequest getStudentsRequest = GetStudentsRequest.newBuilder()
@@ -49,6 +53,22 @@ public class StudentSteps {
         return student;
     }
 
+    public void createStudentError(Group group, String fio, LocalDate joinDate, ErrorType errorType) {
+        Timestamp joinDateTimestamp = timeUtils.toTimestamp(joinDate);
+        CreateStudentRequest createStudentRequest = CreateStudentRequest.newBuilder()
+                .setGroupId(group.getId())
+                .setFio(fio)
+                .setJoinDate(joinDateTimestamp)
+                .build();
+
+        StatusRuntimeException statusRuntimeException = Assertions.assertThrows
+                (StatusRuntimeException.class,
+                        () -> studentServiceBlockingStub.createStudent(createStudentRequest));
+
+        Assertions.assertEquals(errorType.getStatus().getCode(), statusRuntimeException.getStatus().getCode());
+        Assertions.assertEquals(errorType.getErrorCode(), errorFactory.getErrorCode(statusRuntimeException));
+    }
+
     public void checkList(Group group, List<Student> students) {
         GetStudentsRequest getStudentsRequest = GetStudentsRequest.newBuilder()
                 .setGroupId(group.getId())
@@ -72,5 +92,18 @@ public class StudentSteps {
             Assertions.assertEquals(responseStudent.getFio(), student.getFio());
             Assertions.assertEquals(responseStudent.getJoinDate(), student.getJoinDate());
         }
+    }
+
+    public void checkListError(Group group, ErrorType errorType) {
+        GetStudentsRequest getStudentsRequest = GetStudentsRequest.newBuilder()
+                .setGroupId(group.getId())
+                .build();
+
+        StatusRuntimeException statusRuntimeException = Assertions.assertThrows
+                (StatusRuntimeException.class,
+                        () -> studentServiceBlockingStub.getStudents(getStudentsRequest));
+
+        Assertions.assertEquals(errorType.getStatus().getCode(), statusRuntimeException.getStatus().getCode());
+        Assertions.assertEquals(errorType.getErrorCode(), errorFactory.getErrorCode(statusRuntimeException));
     }
 }
