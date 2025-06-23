@@ -7,31 +7,21 @@ import com.demo.univer.step.StudentSteps;
 import com.demo.univer.utils.TimeUtils;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.grpc.autoconfigure.server.GrpcServerProperties;
 import org.springframework.grpc.client.GrpcChannelFactory;
 
 @TestConfiguration
 public class StepConfiguration {
+
     @Bean
-    GroupServiceGrpc.GroupServiceBlockingStub groupServiceBlockingStub(
-            GrpcChannelFactory channels,
-            GrpcServerProperties grpcServerProperties
-    ) {
-        System.out.println("StepConfiguration.groupServiceBlockingStub: grpcServerProperties.getPort():" + grpcServerProperties.getPort());
+    GroupServiceGrpc.GroupServiceBlockingStub groupServiceBlockingStub(GrpcChannelFactory channels) {
         return GroupServiceGrpc.newBlockingStub(
-                channels.createChannel(
-                        "0.0.0.0:" + grpcServerProperties.getPort()));
+                channels.createChannel("in-process"));
     }
 
     @Bean
-    StudentServiceGrpc.StudentServiceBlockingStub studentServiceBlockingStub(
-            GrpcChannelFactory channels,
-            GrpcServerProperties grpcServerProperties
-    ) {
-        System.out.println("StepConfiguration.studentServiceBlockingStub: grpcServerProperties.getPort():" + grpcServerProperties.getPort());
+    StudentServiceGrpc.StudentServiceBlockingStub studentServiceBlockingStub(GrpcChannelFactory channels) {
         return StudentServiceGrpc.newBlockingStub(
-                channels.createChannel(
-                        "0.0.0.0:" + grpcServerProperties.getPort()));
+                channels.createChannel("in-process"));
     }
 
     @Bean

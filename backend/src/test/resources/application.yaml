@@ -1,0 +1,4 @@
+spring:
+  grpc:
+    inprocess.enabled: true
+    server.port: -1

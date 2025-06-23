@@ -10,6 +10,7 @@ import com.demo.univer.gprc.student.Student;
 import com.demo.univer.gprc.student.StudentServiceGrpc;
 import com.demo.univer.mapper.StudentMapper;
 import com.demo.univer.utils.TimeUtils;
+import com.demo.univer.validator.FioValidator;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.grpc.server.service.GrpcService;
@@ -23,6 +24,7 @@ public class StudentGrpcService extends StudentServiceGrpc.StudentServiceImplBas
     private final StudentDbService studentDbService;
     private final StudentMapper studentMapper;
     private final TimeUtils timeUtils;
+    private final FioValidator fioValidator;
 
     @Override
     public void getStudents(GetStudentsRequest request, StreamObserver<GetStudentsResponse> responseObserver) {
@@ -43,8 +45,10 @@ public class StudentGrpcService extends StudentServiceGrpc.StudentServiceImplBas
 
     @Override
     public void createStudent(CreateStudentRequest request, StreamObserver<CreateStudentResponse> responseObserver) {
-        long groupId = request.getGroupId();
         String fio = request.getFio();
+        fioValidator.validate(fio);
+
+        long groupId = request.getGroupId();
         LocalDate joinDate = timeUtils.toLocalDate(request.getJoinDate());
 
         StudentEntity studentEntity = studentDbService.createStudent(groupId, fio, joinDate);

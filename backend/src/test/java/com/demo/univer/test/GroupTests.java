@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
-@SpringBootTest(properties = {
-        "spring.grpc.server.port=9091"}) //TODO This is working. But it is not good.
+@SpringBootTest
+//@DirtiesContext // Ensure a clean context for each test
 @Import({TestcontainersConfiguration.class, StepConfiguration.class})
 class GroupTests {
 
