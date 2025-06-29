@@ -1,13 +1,13 @@
 package com.demo.univer.db.repository;
 
-import com.demo.univer.db.entity.GroupAndStatEntity;
+import com.demo.univer.db.entity.StatGroupEntity;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface GroupAndStatRepository extends org.springframework.data.repository.Repository<GroupAndStatEntity, Long> {
+public interface GroupAndStatRepository extends org.springframework.data.repository.Repository<StatGroupEntity, Long> {
     @Query("""
 SELECT g.*, s.member_count
     FROM tgroups g
@@ -16,5 +16,5 @@ SELECT g.*, s.member_count
     ) s ON g.id = s.group_id
     ORDER BY g.name
 """)
-    List<GroupAndStatEntity> getAll();
+    List<StatGroupEntity> getAll();
 }

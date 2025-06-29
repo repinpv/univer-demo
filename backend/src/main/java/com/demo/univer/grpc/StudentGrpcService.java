@@ -2,12 +2,12 @@ package com.demo.univer.grpc;
 
 import com.demo.univer.db.entity.StudentEntity;
 import com.demo.univer.db.service.StudentDbService;
-import com.demo.univer.gprc.student.CreateStudentRequest;
-import com.demo.univer.gprc.student.CreateStudentResponse;
-import com.demo.univer.gprc.student.GetStudentsRequest;
-import com.demo.univer.gprc.student.GetStudentsResponse;
-import com.demo.univer.gprc.student.Student;
-import com.demo.univer.gprc.student.StudentServiceGrpc;
+import com.demo.univer.grpc.student.v1.CreateStudentRequest;
+import com.demo.univer.grpc.student.v1.CreateStudentResponse;
+import com.demo.univer.grpc.student.v1.GetStudentsRequest;
+import com.demo.univer.grpc.student.v1.GetStudentsResponse;
+import com.demo.univer.grpc.student.v1.Student;
+import com.demo.univer.grpc.student.v1.StudentServiceGrpc;
 import com.demo.univer.mapper.StudentMapper;
 import com.demo.univer.utils.TimeUtils;
 import com.demo.univer.validator.StudentFioValidator;

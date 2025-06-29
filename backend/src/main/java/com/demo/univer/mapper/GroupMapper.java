@@ -1,9 +1,9 @@
 package com.demo.univer.mapper;
 
-import com.demo.univer.db.entity.GroupAndStatEntity;
 import com.demo.univer.db.entity.GroupEntity;
-import com.demo.univer.gprc.group.Group;
-import com.demo.univer.gprc.group.GroupAndStat;
+import com.demo.univer.db.entity.StatGroupEntity;
+import com.demo.univer.grpc.group.v1.ExtGroup;
+import com.demo.univer.grpc.group.v1.Group;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -17,14 +17,14 @@ public class GroupMapper {
                 .build();
     }
 
-    public GroupAndStat map(GroupAndStatEntity groupAndStatEntity) {
+    public ExtGroup map(StatGroupEntity statGroupEntity) {
         int memberCount = Optional.ofNullable(
-                        groupAndStatEntity.getMemberCount())
+                        statGroupEntity.getMemberCount())
                 .orElse(0);
 
-        return GroupAndStat.newBuilder()
-                .setId(groupAndStatEntity.getId())
-                .setName(groupAndStatEntity.getName())
+        return ExtGroup.newBuilder()
+                .setId(statGroupEntity.getId())
+                .setName(statGroupEntity.getName())
                 .setMemberCount(memberCount)
                 .build();
     }

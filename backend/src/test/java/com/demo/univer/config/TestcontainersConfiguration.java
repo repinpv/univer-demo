@@ -12,8 +12,6 @@ import org.testcontainers.utility.DockerImageName;
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfiguration {
 
-//	private static final AtomicInteger grpcPort = new AtomicInteger(9090);
-
 	@Bean
 	@ServiceConnection
 	MySQLContainer<?> mysqlContainer() {
@@ -26,13 +24,6 @@ public class TestcontainersConfiguration {
 		registry.add("spring.datasource.url", mysqlContainer::getJdbcUrl);
 		registry.add("spring.datasource.username", mysqlContainer::getUsername);
 		registry.add("spring.datasource.password", mysqlContainer::getPassword);
-
-//TODO This don't work. Need good way to solve grpc port conflict.
-//		registry.add("spring.grpc.server.port", () -> {
-//			int port = grpcPort.getAndIncrement();
-//			System.out.println("TestcontainersConfiguration.dynamicProperties: grpcPort.getAndIncrement():" + port);
-//			return port;
-//		});
 	}
 
 }

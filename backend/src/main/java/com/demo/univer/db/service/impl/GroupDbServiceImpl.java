@@ -1,6 +1,6 @@
 package com.demo.univer.db.service.impl;
 
-import com.demo.univer.db.entity.GroupAndStatEntity;
+import com.demo.univer.db.entity.StatGroupEntity;
 import com.demo.univer.db.entity.GroupEntity;
 import com.demo.univer.db.repository.GroupAndStatRepository;
 import com.demo.univer.db.repository.GroupRepository;
@@ -23,7 +23,7 @@ public class GroupDbServiceImpl implements GroupDbService {
     private final ErrorFactory errorFactory;
 
     @Override
-    public List<GroupAndStatEntity> getAllGroups() {
+    public List<StatGroupEntity> getAllGroups() {
         return groupAndStatRepository.getAll();
     }
 

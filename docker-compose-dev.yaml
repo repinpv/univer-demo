@@ -9,8 +9,4 @@ services:
     volumes:
       - ./volumes/mysql:/var/lib/mysql
     ports:
-      - '3306:3306'
-  backend:
-    image: 'com.demo.univer/demo-univer-backend:0.0.1-SNAPSHOT'
-    ports:
-      - '9090:9090'
+      - '3306'

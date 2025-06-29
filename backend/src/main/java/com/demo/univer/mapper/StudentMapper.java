@@ -1,7 +1,7 @@
 package com.demo.univer.mapper;
 
 import com.demo.univer.db.entity.StudentEntity;
-import com.demo.univer.gprc.student.Student;
+import com.demo.univer.grpc.student.v1.Student;
 import com.demo.univer.utils.TimeUtils;
 import com.google.protobuf.Timestamp;
 import lombok.RequiredArgsConstructor;

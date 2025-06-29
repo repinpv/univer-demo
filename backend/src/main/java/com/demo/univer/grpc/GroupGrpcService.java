@@ -2,13 +2,13 @@ package com.demo.univer.grpc;
 
 import com.demo.univer.db.entity.GroupEntity;
 import com.demo.univer.db.service.GroupDbService;
-import com.demo.univer.gprc.group.CreateGroupRequest;
-import com.demo.univer.gprc.group.CreateGroupResponse;
-import com.demo.univer.gprc.group.GetGroupsRequest;
-import com.demo.univer.gprc.group.GetGroupsResponse;
-import com.demo.univer.gprc.group.Group;
-import com.demo.univer.gprc.group.GroupAndStat;
-import com.demo.univer.gprc.group.GroupServiceGrpc;
+import com.demo.univer.grpc.group.v1.CreateGroupRequest;
+import com.demo.univer.grpc.group.v1.CreateGroupResponse;
+import com.demo.univer.grpc.group.v1.ExtGroup;
+import com.demo.univer.grpc.group.v1.GetGroupsRequest;
+import com.demo.univer.grpc.group.v1.GetGroupsResponse;
+import com.demo.univer.grpc.group.v1.Group;
+import com.demo.univer.grpc.group.v1.GroupServiceGrpc;
 import com.demo.univer.mapper.GroupMapper;
 import com.demo.univer.validator.GroupNameValidator;
 import io.grpc.stub.StreamObserver;
@@ -26,7 +26,7 @@ public class GroupGrpcService extends GroupServiceGrpc.GroupServiceImplBase {
 
     @Override
     public void getGroups(GetGroupsRequest request, StreamObserver<GetGroupsResponse> responseObserver) {
-        List<GroupAndStat> groups = groupDbService.getAllGroups()
+        List<ExtGroup> groups = groupDbService.getAllGroups()
                 .stream()
                 .map(groupMapper::map)
                 .toList();

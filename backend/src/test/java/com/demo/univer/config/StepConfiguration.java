@@ -1,8 +1,8 @@
 package com.demo.univer.config;
 
 import com.demo.univer.error.ErrorFactory;
-import com.demo.univer.gprc.group.GroupServiceGrpc;
-import com.demo.univer.gprc.student.StudentServiceGrpc;
+import com.demo.univer.grpc.group.v1.GroupServiceGrpc;
+import com.demo.univer.grpc.student.v1.StudentServiceGrpc;
 import com.demo.univer.step.GroupSteps;
 import com.demo.univer.step.StudentSteps;
 import com.demo.univer.utils.TimeUtils;

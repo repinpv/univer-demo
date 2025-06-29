@@ -1,6 +1,5 @@
 package com.demo.univer.db.entity;
 
-
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;

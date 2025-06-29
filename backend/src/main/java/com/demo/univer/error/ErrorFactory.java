@@ -1,7 +1,7 @@
 package com.demo.univer.error;
 
-import com.demo.univer.gprc.error.ErrorCode;
-import com.demo.univer.gprc.error.ErrorResponse;
+import com.demo.univer.grpc.error.v1.ErrorCode;
+import com.demo.univer.grpc.error.v1.ErrorResponse;
 import com.demo.univer.utils.TimeUtils;
 import io.grpc.Metadata;
 import io.grpc.Status;

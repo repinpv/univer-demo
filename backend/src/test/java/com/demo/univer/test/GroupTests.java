@@ -3,7 +3,7 @@ package com.demo.univer.test;
 import com.demo.univer.config.StepConfiguration;
 import com.demo.univer.config.TestcontainersConfiguration;
 import com.demo.univer.error.ErrorType;
-import com.demo.univer.gprc.group.Group;
+import com.demo.univer.grpc.group.v1.Group;
 import com.demo.univer.service.TestGroupDbService;
 import com.demo.univer.step.GroupSteps;
 import org.junit.jupiter.api.BeforeEach;

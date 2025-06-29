@@ -2,13 +2,13 @@ package com.demo.univer.step;
 
 import com.demo.univer.error.ErrorFactory;
 import com.demo.univer.error.ErrorType;
-import com.demo.univer.gprc.group.CreateGroupRequest;
-import com.demo.univer.gprc.group.CreateGroupResponse;
-import com.demo.univer.gprc.group.GetGroupsRequest;
-import com.demo.univer.gprc.group.GetGroupsResponse;
-import com.demo.univer.gprc.group.Group;
-import com.demo.univer.gprc.group.GroupAndStat;
-import com.demo.univer.gprc.group.GroupServiceGrpc;
+import com.demo.univer.grpc.group.v1.CreateGroupRequest;
+import com.demo.univer.grpc.group.v1.CreateGroupResponse;
+import com.demo.univer.grpc.group.v1.GetGroupsRequest;
+import com.demo.univer.grpc.group.v1.GetGroupsResponse;
+import com.demo.univer.grpc.group.v1.Group;
+import com.demo.univer.grpc.group.v1.GroupServiceGrpc;
+import com.demo.univer.grpc.group.v1.ExtGroup;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
@@ -64,7 +64,7 @@ public class GroupSteps {
         GetGroupsRequest getGroupsRequest = GetGroupsRequest.newBuilder()
                 .build();
         GetGroupsResponse getGroupsResponse = groupServiceBlockingStub.getGroups(getGroupsRequest);
-        List<GroupAndStat> responseGroups = getGroupsResponse.getGroupList();
+        List<ExtGroup> responseGroups = getGroupsResponse.getGroupList();
         Assertions.assertEquals(groups.size(), responseGroups.size());
 
         Map<Long, Group> searchMap = groups.stream()
@@ -74,7 +74,7 @@ public class GroupSteps {
                 ));
         Assertions.assertEquals(groups.size(), searchMap.size());
 
-        for (GroupAndStat responseGroup : responseGroups) {
+        for (ExtGroup responseGroup : responseGroups) {
             Group group = searchMap.get(responseGroup.getId());
             Assertions.assertNotNull(group);
 
@@ -83,10 +83,10 @@ public class GroupSteps {
 
         Assertions.assertTrue(memberCounts.size() <= responseGroups.size());
         for (int i = 0; i < memberCounts.size(); i++) {
-            GroupAndStat groupAndStat = responseGroups.get(i);
+            ExtGroup statGroupModel = responseGroups.get(i);
             int count = memberCounts.get(i);
 
-            Assertions.assertEquals(count, groupAndStat.getMemberCount());
+            Assertions.assertEquals(count, statGroupModel.getMemberCount());
         }
     }
 }
