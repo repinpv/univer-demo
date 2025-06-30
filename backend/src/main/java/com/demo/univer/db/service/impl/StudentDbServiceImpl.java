@@ -20,7 +20,6 @@ public class StudentDbServiceImpl implements StudentDbService {
 
     @Override
     public List<StudentEntity> getStudents(long groupId) {
-        groupDbService.checkGroupExists(groupId);
         return studentRepository.findAllByGroupId(groupId);
     }
 

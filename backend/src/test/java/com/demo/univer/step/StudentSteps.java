@@ -27,12 +27,7 @@ public class StudentSteps {
     private final ErrorFactory errorFactory;
 
     public void checkEmptyList(Group group) {
-        GetStudentsRequest getStudentsRequest = GetStudentsRequest.newBuilder()
-                .setGroupId(group.getId())
-                .build();
-        GetStudentsResponse getStudentsResponse = studentServiceBlockingStub.getStudents(getStudentsRequest);
-
-        Assertions.assertTrue(getStudentsResponse.getStudentList().isEmpty());
+        checkList(group, List.of());
     }
 
     public Student createStudent(Group group, String fio, LocalDate joinDate) {
@@ -74,6 +69,10 @@ public class StudentSteps {
                 .setGroupId(group.getId())
                 .build();
         GetStudentsResponse getStudentsResponse = studentServiceBlockingStub.getStudents(getStudentsRequest);
+
+        Group responseGroup = getStudentsResponse.getGroup();
+        Assertions.assertEquals(group, responseGroup);
+
         List<Student> responseStudents = getStudentsResponse.getStudentList();
         Assertions.assertEquals(students.size(), responseStudents.size());
 

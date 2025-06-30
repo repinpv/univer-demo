@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class GroupNameValidator {
     private static final Pattern GROUP_NAME_PATTERN = Pattern.compile(
-            "^\\p{Upper}(\\p{Alnum}+)?([-_]\\p{Alnum}+)?$");
+            "^\\p{Lu}(\\p{LD}+)?([-_]\\p{LD}+)?$");
 
     private final ErrorFactory errorFactory;
 

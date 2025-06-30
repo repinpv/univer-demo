@@ -11,4 +11,6 @@ public interface GroupDbService {
     GroupEntity create(String name);
 
     void checkGroupExists(long groupId);
+
+    GroupEntity getGroup(long groupId);
 }

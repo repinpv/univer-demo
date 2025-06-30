@@ -44,6 +44,13 @@ public class GroupDbServiceImpl implements GroupDbService {
     }
 
     @Override
+    public GroupEntity getGroup(long groupId) {
+        return groupRepository.findById(groupId)
+                .orElseThrow(() ->
+                        errorFactory.create(ErrorType.GROUP_NOT_FOUND));
+    }
+
+    @Override
     public void checkGroupExists(long groupId) {
         groupRepository.findById(groupId)
                 .orElseThrow(() ->
