@@ -25,26 +25,28 @@ public class ErrorFactory {
         return create(errorType, errorType.getDefaultDescription());
     }
 
-    public StatusRuntimeException create(ErrorType errorType, String defaultDescription) {
-        return create(errorType, errorType.getDefaultDescription(), null);
+    public StatusRuntimeException create(ErrorType errorType, String errorDescription) {
+        return create(errorType, errorDescription, null);
     }
 
     public StatusRuntimeException create(ErrorType errorType, Exception cause) {
         return create(errorType, errorType.getDefaultDescription(), cause);
     }
 
-    public StatusRuntimeException create(ErrorType errorType, String description, Exception cause) {
+    public StatusRuntimeException create(ErrorType errorType, String errorDescription, Exception cause) {
         Metadata metadata = new Metadata();
 
+        ErrorCode errorCode = errorType.getErrorCode();
         ErrorResponse errorResponse = ErrorResponse.newBuilder()
-                .setErrorCode(errorType.getErrorCode())
-                .setErrorDescription(description)
+                .setErrorCode(errorCode)
+                .setErrorDescription(errorDescription)
                 .setTime(timeUtils.currentTimestamp())
                 .build();
 
         metadata.put(ERROR_RESPONSE_KEY, errorResponse);
 
-        Status status = errorType.getStatus().withDescription(description);
+        Status status = errorType.getStatus()
+                .withDescription(errorCode + ": " + errorDescription);
         if (cause != null) {
             status = status.withCause(cause);
         }

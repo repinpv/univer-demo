@@ -1,0 +1,7 @@
+# environment
+env:
+  grpc:
+    port: ${GRPC_PORT}
+  mysql:
+    host: ${MYSQL_HOST}
+    port: ${MYSQL_PORT}

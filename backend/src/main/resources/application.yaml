@@ -3,6 +3,8 @@ spring:
     name: univer-demo
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/univer_db
+    url: jdbc:mysql://${env.mysql.host}:${env.mysql.port}/univer_db
     username: univer_db_user
     password: pass
+  grpc:
+    server.port: ${env.grpc.port}

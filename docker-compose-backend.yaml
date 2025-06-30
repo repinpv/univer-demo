@@ -1,0 +1,31 @@
+services:
+  mysql:
+    image: 'mysql:lts'
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=rootpass'
+      - 'MYSQL_DATABASE=univer_db'
+      - 'MYSQL_USER=univer_db_user'
+      - 'MYSQL_PASSWORD=pass'
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+    ports:
+      - '3306:3306'
+
+  envoy:
+    image: envoyproxy/envoy:v1.33-latest
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - '8080:8080'  # HTTP listener
+
+  backend:
+    image: 'openjdk:21-jdk'
+    volumes:
+      - './backend/target/backend-0.0.1-SNAPSHOT.jar:/app.jar'
+    environment:
+      - 'GRPC_PORT=9090'
+      - 'MYSQL_HOST=host.docker.internal'
+      - 'MYSQL_PORT=3306'
+    command: ['java', '-jar', '/app.jar']
+    ports:
+      - '9090:9090'
