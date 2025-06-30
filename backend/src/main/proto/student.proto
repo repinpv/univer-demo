@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
-import "com/demo/univer/grpc/group/v1/group.proto";
+import "group.proto";
 
 package com.demo.univer.grpc.student.v1;
 

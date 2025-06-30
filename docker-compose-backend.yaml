@@ -10,6 +10,8 @@ services:
       - ./volumes/mysql:/var/lib/mysql
     ports:
       - '3306:3306'
+    networks:
+      - grpc-network
 
   envoy:
     image: envoyproxy/envoy:v1.33-latest
@@ -17,15 +19,29 @@ services:
       - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
     ports:
       - '8080:8080'  # HTTP listener
+      - '9901:9901'  # admin
+    depends_on:
+      - backend
+    networks:
+      - grpc-network
 
   backend:
     image: 'openjdk:21-jdk'
     volumes:
       - './backend/target/backend-0.0.1-SNAPSHOT.jar:/app.jar'
     environment:
+      - 'GRPC_HOST=0.0.0.0'
       - 'GRPC_PORT=9090'
-      - 'MYSQL_HOST=host.docker.internal'
+      - 'MYSQL_HOST=mysql'
       - 'MYSQL_PORT=3306'
     command: ['java', '-jar', '/app.jar']
     ports:
       - '9090:9090'
+    depends_on:
+      - mysql
+    networks:
+      - grpc-network
+
+networks:
+  grpc-network:
+    driver: bridge

@@ -1,6 +1,7 @@
 # environment
 env:
   grpc:
+#    host: localhost
     port: 9090
   mysql:
     host: localhost

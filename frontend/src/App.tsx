@@ -4,7 +4,7 @@ import {GroupListPage} from './page/GroupListPage.tsx';
 import {GroupPage} from './page/GroupPage.tsx';
 import './App.css';
 
-function App() {
+export function App() {
     return (
         <div className="App">
             <Routes>
@@ -14,5 +14,3 @@ function App() {
         </div>
     );
 }
-
-export default App

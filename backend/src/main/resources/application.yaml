@@ -7,4 +7,6 @@ spring:
     username: univer_db_user
     password: pass
   grpc:
-    server.port: ${env.grpc.port}
+    server:
+#      host: ${env.grpc.host}
+      port: ${env.grpc.port}

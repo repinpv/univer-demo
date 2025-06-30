@@ -30,9 +30,9 @@ static_resources:
                             prefix: '/'
                           route:
                             cluster: backend
-                            timeout: 0s
+                            timeout: 1s
                             max_stream_duration:
-                              grpc_timeout_header_max: 0s
+                              grpc_timeout_header_max: 1s
                       cors:
                         allow_origin_string_match:
                           - prefix: '*'
@@ -52,7 +52,7 @@ static_resources:
                       '@type': type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
   clusters:
     - name: backend
-      connect_timeout: 0.25s
+      connect_timeout: 1s
       type: logical_dns
       http2_protocol_options: {}
       lb_policy: round_robin
@@ -64,5 +64,5 @@ static_resources:
                   address:
                     socket_address:
                       # address: backend # Use this if running backend + envoy with docker-compose
-                      address: host.docker.internal # Use this if only running envoy with Docker
+                      address: backend # Use this if only running envoy with Docker
                       port_value: 9090 # backend's grpc server port
