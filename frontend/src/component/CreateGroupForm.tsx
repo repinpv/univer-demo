@@ -24,7 +24,7 @@ type CreateGroupFormProps = {
 export function CreateGroupForm({handleSubmit}: CreateGroupFormProps) {
     return (
         <>
-            <h1>Create Group Form</h1>
+            <h2>Create Group Form</h2>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}

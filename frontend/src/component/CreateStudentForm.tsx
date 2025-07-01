@@ -28,7 +28,7 @@ type CreateStudentFormProps = {
 export function CreateStudentForm({handleSubmit}: CreateStudentFormProps) {
     return (
         <>
-            <h1>Create Student Form</h1>
+            <h2>Create Student Form</h2>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}

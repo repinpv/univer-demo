@@ -7,6 +7,8 @@ import com.demo.univer.db.service.StudentDbService;
 import com.demo.univer.grpc.group.v1.Group;
 import com.demo.univer.grpc.student.v1.CreateStudentRequest;
 import com.demo.univer.grpc.student.v1.CreateStudentResponse;
+import com.demo.univer.grpc.student.v1.DeleteStudentRequest;
+import com.demo.univer.grpc.student.v1.DeleteStudentResponse;
 import com.demo.univer.grpc.student.v1.GetStudentsRequest;
 import com.demo.univer.grpc.student.v1.GetStudentsResponse;
 import com.demo.univer.grpc.student.v1.Student;
@@ -44,12 +46,12 @@ public class StudentGrpcService extends StudentServiceGrpc.StudentServiceImplBas
                 .map(studentMapper::map)
                 .toList();
 
-        GetStudentsResponse getStudentsResponse = GetStudentsResponse.newBuilder()
+        GetStudentsResponse response = GetStudentsResponse.newBuilder()
                 .setGroup(group)
                 .addAllStudent(students)
                 .build();
 
-        responseObserver.onNext(getStudentsResponse);
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 
@@ -64,11 +66,24 @@ public class StudentGrpcService extends StudentServiceGrpc.StudentServiceImplBas
         StudentEntity studentEntity = studentDbService.createStudent(groupId, fio, joinDate);
 
         Student student = studentMapper.map(studentEntity);
-        CreateStudentResponse createStudentResponse = CreateStudentResponse.newBuilder()
+        CreateStudentResponse response = CreateStudentResponse.newBuilder()
                 .setStudent(student)
                 .build();
 
-        responseObserver.onNext(createStudentResponse);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void deleteStudent(DeleteStudentRequest request, StreamObserver<DeleteStudentResponse> responseObserver) {
+        long studentId = request.getStudentId();
+
+        studentDbService.deleteStudent(studentId);
+
+        DeleteStudentResponse response = DeleteStudentResponse.newBuilder()
+                .build();
+
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 }

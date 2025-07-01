@@ -24,6 +24,10 @@ public enum ErrorType {
             Status.INVALID_ARGUMENT,
             ErrorCode.ERROR_CODE_GROUP_NAME_NOT_UNIQUE,
             "Group name not unique"),
+    STUDENT_NOT_FOUND(
+            Status.NOT_FOUND,
+            ErrorCode.ERROR_CODE_STUDENT_NOT_FOUND,
+            "Student not found"),
     STUDENT_FIO_FORMAT_INVALID(
             Status.INVALID_ARGUMENT,
             ErrorCode.ERROR_CODE_STUDENT_FIO_FORMAT_INVALID,

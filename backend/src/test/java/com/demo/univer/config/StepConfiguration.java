@@ -1,10 +1,10 @@
 package com.demo.univer.config;
 
-import com.demo.univer.error.ErrorFactory;
 import com.demo.univer.grpc.group.v1.GroupServiceGrpc;
 import com.demo.univer.grpc.student.v1.StudentServiceGrpc;
 import com.demo.univer.step.GroupSteps;
 import com.demo.univer.step.StudentSteps;
+import com.demo.univer.utils.ErrorUtils;
 import com.demo.univer.utils.TimeUtils;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -28,17 +28,17 @@ public class StepConfiguration {
     @Bean
     GroupSteps groupSteps(
             GroupServiceGrpc.GroupServiceBlockingStub groupServiceBlockingStub,
-            ErrorFactory errorFactory
+            ErrorUtils errorUtils
     ) {
-        return new GroupSteps(groupServiceBlockingStub, errorFactory);
+        return new GroupSteps(groupServiceBlockingStub, errorUtils);
     }
 
     @Bean
     StudentSteps studentSteps(
             StudentServiceGrpc.StudentServiceBlockingStub studentServiceBlockingStub,
             TimeUtils timeUtils,
-            ErrorFactory errorFactory
+            ErrorUtils errorUtils
     ) {
-        return new StudentSteps(studentServiceBlockingStub, timeUtils, errorFactory);
+        return new StudentSteps(studentServiceBlockingStub, timeUtils, errorUtils);
     }
 }

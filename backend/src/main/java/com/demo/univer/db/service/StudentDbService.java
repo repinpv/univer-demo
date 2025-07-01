@@ -9,4 +9,6 @@ public interface StudentDbService {
     List<StudentEntity> getStudents(long groupId);
 
     StudentEntity createStudent(long groupId, String fio, LocalDate joinDate);
+
+    void deleteStudent(long studentId);
 }

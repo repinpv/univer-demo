@@ -104,4 +104,87 @@ class StudentTests {
         studentSteps.createStudentError(
                 group, "Иванов Иван И.", joinDate, ErrorType.STUDENT_FIO_FORMAT_INVALID);
     }
+
+    @Test
+    void deleteStudent() {
+        Group group = groupSteps.createGroup("TEST");
+        Student student = studentSteps.createStudent(
+                group,
+                "Иванов Иван Иванович",
+                LocalDate.of(2024, 9, 1));
+        studentSteps.checkList(group, List.of(student));
+        groupSteps.checkList(List.of(group), List.of(1));
+
+        studentSteps.deleteStudent(student);
+        studentSteps.checkEmptyList(group);
+        groupSteps.checkList(List.of(group), List.of(0));
+    }
+
+    @Test
+    void createTwoStudentsAndDeleteOne() {
+        Group group = groupSteps.createGroup("TEST");
+        Student student1 = studentSteps.createStudent(
+                group,
+                "Иванов Иван Иванович",
+                LocalDate.of(2024, 9, 1));
+        Student student2 = studentSteps.createStudent(
+                group,
+                "Петров Петр Петрович",
+                LocalDate.of(2024, 8, 21));
+        studentSteps.checkList(group, List.of(student1, student2));
+        groupSteps.checkList(List.of(group), List.of(2));
+
+        studentSteps.deleteStudent(student1);
+        studentSteps.checkList(group, List.of(student2));
+        groupSteps.checkList(List.of(group), List.of(1));
+    }
+
+    @Test
+    void createTwoStudentsInDifferentGroupsAndDeleteOne() {
+        Group group1 = groupSteps.createGroup("TEST1");
+        Group group2 = groupSteps.createGroup("TEST2");
+        groupSteps.checkList(List.of(group1, group2), List.of(0, 0));
+
+        Student student1 = studentSteps.createStudent(
+                group1,
+                "Иванов Иван Иванович",
+                LocalDate.of(2024, 9, 1));
+        Student student2 = studentSteps.createStudent(
+                group2,
+                "Петров Петр Петрович",
+                LocalDate.of(2024, 8, 21));
+        studentSteps.checkList(group1, List.of(student1));
+        studentSteps.checkList(group2, List.of(student2));
+        groupSteps.checkList(List.of(group1, group2), List.of(1, 1));
+
+        studentSteps.deleteStudent(student1);
+        studentSteps.checkList(group1, List.of());
+        studentSteps.checkList(group2, List.of(student2));
+        groupSteps.checkList(List.of(group1, group2), List.of(0, 1));
+    }
+
+    @Test
+    void deleteNotExistStudent() {
+        Student student = Student.newBuilder()
+                .setId(1)
+                .build();
+        studentSteps.deleteStudentError(student, ErrorType.STUDENT_NOT_FOUND);
+    }
+
+    @Test
+    void deleteStudentTwice() {
+        Group group = groupSteps.createGroup("TEST");
+        Student student = studentSteps.createStudent(
+                group,
+                "Иванов Иван Иванович",
+                LocalDate.of(2024, 9, 1));
+        studentSteps.checkList(group, List.of(student));
+        groupSteps.checkList(List.of(group), List.of(1));
+
+        studentSteps.deleteStudent(student);
+        studentSteps.checkEmptyList(group);
+        groupSteps.checkList(List.of(group), List.of(0));
+
+        studentSteps.deleteStudentError(student, ErrorType.STUDENT_NOT_FOUND);
+    }
 }

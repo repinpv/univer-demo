@@ -34,7 +34,16 @@ message CreateStudentResponse {
   Student student = 1;
 }
 
+message DeleteStudentRequest {
+  int64 student_id = 1;
+}
+
+message DeleteStudentResponse {
+  int64 student_id = 1;
+}
+
 service StudentService {
   rpc GetStudents(GetStudentsRequest) returns (GetStudentsResponse);
   rpc CreateStudent(CreateStudentRequest) returns (CreateStudentResponse);
+  rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentResponse);
 }

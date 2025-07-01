@@ -8,11 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "grpc_gen_clean": "rmdir /s /q \"./src/gen\"",
-    "grpc_gen_prepare": "mkdir -p \"./src/gen\"",
-    "grpc_gen": "rmdir /s /q \"./src/gen\" && mkdir -p \"./src/gen\" && protoc -I=./src/proto --ts_out=./src/gen ./src/proto/*.proto",
-    "grpc_gen_win": "mkdir -p ./src/gen && protoc --proto_path=./src/proto --ts_out=./src/gen ./src/proto/*.proto",
-    "grpc_gen_test": "protoc --proto_path=./src/proto --ts_out=./src/gen ./src/proto/*.proto"
+    "grpc_gen": "protoc --proto_path=./src/proto --ts_out=./src/gen ./src/proto/*.proto"
   },
   "dependencies": {
     "@protobuf-ts/grpcweb-transport": "^2.11.1",

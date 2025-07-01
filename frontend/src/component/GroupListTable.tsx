@@ -28,7 +28,7 @@ type GroupListTableProps = {
 
 export function GroupListTable({loading, groupList}: GroupListTableProps) {
     return (
-        <div className="ag-theme-alpine" style={{height: 600, width: '100%'}}>
+        <div className="ag-theme-alpine" style={{height: 300, width: 650}}>
             {loading && (
                 <div className="ag-overlay-loading-center">
                     <div>Loading users...</div>

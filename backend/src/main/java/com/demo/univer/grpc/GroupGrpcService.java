@@ -31,11 +31,11 @@ public class GroupGrpcService extends GroupServiceGrpc.GroupServiceImplBase {
                 .map(groupMapper::map)
                 .toList();
 
-        GetGroupsResponse getGroupsResponse = GetGroupsResponse.newBuilder()
+        GetGroupsResponse response = GetGroupsResponse.newBuilder()
                 .addAllGroup(groups)
                 .build();
 
-        responseObserver.onNext(getGroupsResponse);
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 
@@ -47,11 +47,11 @@ public class GroupGrpcService extends GroupServiceGrpc.GroupServiceImplBase {
         GroupEntity groupEntity = groupDbService.create(name);
         Group group = groupMapper.map(groupEntity);
 
-        CreateGroupResponse createGroupResponse = CreateGroupResponse.newBuilder()
+        CreateGroupResponse response = CreateGroupResponse.newBuilder()
                 .setGroup(group)
                 .build();
 
-        responseObserver.onNext(createGroupResponse);
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 }

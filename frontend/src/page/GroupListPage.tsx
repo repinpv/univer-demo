@@ -22,7 +22,7 @@ export function GroupListPage() {
             .then(response =>
                 setGroupList(response.response.group))
             .catch(err => {
-                console.error('Error loading groups: ', err);
+                console.error('Error loading group list: ', err);
                 setError(err);
             })
             .finally(() =>
@@ -38,7 +38,7 @@ export function GroupListPage() {
                     resolve();
                 })
                 .catch(err => {
-                    console.error(err);
+                    console.error('Error while creating group: ', err);
                     setError(err);
                     reject(err);
                 });
@@ -51,10 +51,10 @@ export function GroupListPage() {
     if (error) return <div>Error: {JSON.stringify(error, null, 2)}</div>;
 
     return (
-        <div>
+        <>
             <h1>Group list</h1>
             <GroupListTable loading={loading} groupList={groupList}/>
             <CreateGroupForm handleSubmit={createGroup}/>
-        </div>
+        </>
     );
 }

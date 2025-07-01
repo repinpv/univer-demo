@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
 import type {Group} from "../gen/group.ts";
 import type {Student} from "../gen/student.ts";
-import {CreateStudentRequest, GetStudentsRequest} from "../gen/student.ts";
+import {CreateStudentRequest, DeleteStudentRequest, GetStudentsRequest} from "../gen/student.ts";
 import {studentServiceClient} from "../grpc.ts";
 import {Link, useParams} from "react-router-dom";
 import {StudentListTable} from "../component/StudentListTable.tsx";
+import type {OnStudentDelete} from "../component/StudentListTable.tsx";
 import type {CreateStudentFormValues} from "../component/CreateStudentForm.tsx";
 import {CreateStudentForm} from "../component/CreateStudentForm.tsx";
 import {Timestamp} from "../gen/google/protobuf/timestamp.ts";
@@ -49,12 +50,24 @@ export function GroupPage() {
                     resolve();
                 })
                 .catch(err => {
-                    console.error(err);
+                    console.error('Error while creating student: ', err);
                     setError(err);
                     reject(err);
                 });
         });
     }
+
+    const onStudentDelete: OnStudentDelete = (studentId?: bigint) => {
+        if (!studentId) return;
+
+        const request = DeleteStudentRequest.create({studentId});
+        studentServiceClient.deleteStudent(request)
+            .then(_ => loadGroup())
+            .catch(err => {
+                console.error('Error while deleting student: ', err);
+                setError(err);
+            });
+    };
 
     useEffect(loadGroup, []);
 
@@ -62,11 +75,11 @@ export function GroupPage() {
     if (error) return <div>Error: {JSON.stringify(error, null, 2)}</div>;
 
     return (
-        <div>
+        <>
             <h1>Group {group?.name}</h1>
-            <StudentListTable loading={loading} studentList={studentList}/>
+            <StudentListTable loading={loading} studentList={studentList} onStudentDelete={onStudentDelete}/>
             <CreateStudentForm handleSubmit={createStudent}/>
             <Link to={'/'}>Back</Link>
-        </div>
+        </>
     );
 }
