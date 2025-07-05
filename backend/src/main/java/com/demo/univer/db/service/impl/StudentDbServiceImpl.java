@@ -1,8 +1,9 @@
 package com.demo.univer.db.service.impl;
 
+import com.demo.univer.db.entity.GroupEntity;
 import com.demo.univer.db.entity.StudentEntity;
+import com.demo.univer.db.repository.GroupRepository;
 import com.demo.univer.db.repository.StudentRepository;
-import com.demo.univer.db.service.GroupDbService;
 import com.demo.univer.db.service.StudentDbService;
 import com.demo.univer.error.ErrorFactory;
 import com.demo.univer.error.ErrorType;
@@ -17,8 +18,8 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class StudentDbServiceImpl implements StudentDbService {
+    private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
-    private final GroupDbService groupDbService;
     private final ErrorFactory errorFactory;
 
     @Override
@@ -28,7 +29,7 @@ public class StudentDbServiceImpl implements StudentDbService {
 
     @Override
     public StudentEntity createStudent(long groupId, String fio, LocalDate joinDate) {
-        groupDbService.checkGroupExists(groupId);
+        checkGroupExistsAndMaxMemberLimit(groupId);
 
         StudentEntity studentEntity = StudentEntity.builder()
                 .groupId(groupId)
@@ -48,5 +49,17 @@ public class StudentDbServiceImpl implements StudentDbService {
                 .orElseThrow(() -> errorFactory.create(ErrorType.STUDENT_NOT_FOUND));
 
         studentRepository.delete(studentEntity);
+    }
+
+    private void checkGroupExistsAndMaxMemberLimit(long groupId) {
+        GroupEntity groupEntity = groupRepository.findByIdForUpdate(groupId)
+                .orElseThrow(() ->
+                        errorFactory.create(ErrorType.GROUP_NOT_FOUND));
+
+        int memberCount = studentRepository.countAllByGroupId(groupId);
+
+        if (memberCount == groupEntity.getMaxMemberCount()) {
+            throw errorFactory.create(ErrorType.GROUP_MEMBER_NUMBER_EXCEEDED);
+        }
     }
 }

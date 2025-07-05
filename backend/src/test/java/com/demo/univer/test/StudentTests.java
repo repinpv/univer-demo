@@ -187,4 +187,21 @@ class StudentTests {
 
         studentSteps.deleteStudentError(student, ErrorType.STUDENT_NOT_FOUND);
     }
+
+    @Test
+    void exceedGroupMaxMemberNumber() {
+        Group group = groupSteps.createGroup("TEST", 1);
+        Student student1 = studentSteps.createStudent(
+                group,
+                "Иванов Иван Иванович",
+                LocalDate.of(2024, 9, 1));
+        studentSteps.checkList(group, List.of(student1));
+        groupSteps.checkList(List.of(group), List.of(1));
+
+        studentSteps.createStudentError(
+                group,
+                "Петров Петр Петрович",
+                LocalDate.of(2024, 8, 21),
+                ErrorType.GROUP_MEMBER_NUMBER_EXCEEDED);
+    }
 }

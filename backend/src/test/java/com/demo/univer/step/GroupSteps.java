@@ -61,8 +61,13 @@ public class GroupSteps {
     }
 
     public Group createGroup(String name) {
+        return createGroup(name, 1000);
+    }
+
+    public Group createGroup(String name, int maxMemberCount) {
         CreateGroupRequest createGroupRequest = CreateGroupRequest.newBuilder()
                 .setName(name)
+                .setMaxMemberCount(maxMemberCount)
                 .build();
         CreateGroupResponse createGroupResponse = groupServiceBlockingStub.createGroup(createGroupRequest);
         Group group = createGroupResponse.getGroup();

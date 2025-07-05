@@ -14,4 +14,6 @@ public interface StudentRepository extends CrudRepository<StudentEntity, Long> {
     long getLastId();
 
     List<StudentEntity> findAllByGroupId(long groupId);
+
+    int countAllByGroupId(long groupId);
 }

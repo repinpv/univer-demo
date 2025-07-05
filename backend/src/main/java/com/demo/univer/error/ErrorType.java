@@ -32,6 +32,10 @@ public enum ErrorType {
             Status.INVALID_ARGUMENT,
             ErrorCode.ERROR_CODE_STUDENT_FIO_FORMAT_INVALID,
             "Student fio format invalid"),
+    GROUP_MEMBER_NUMBER_EXCEEDED(
+            Status.UNAVAILABLE,
+            ErrorCode.ERROR_CODE_GROUP_MEMBER_NUMBER_EXCEEDED,
+            "Student fio format invalid"),
     ;
 
     private final Status status;

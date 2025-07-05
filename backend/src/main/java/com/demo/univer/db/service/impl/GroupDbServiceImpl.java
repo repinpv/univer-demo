@@ -1,8 +1,7 @@
 package com.demo.univer.db.service.impl;
 
-import com.demo.univer.db.entity.StatGroupEntity;
 import com.demo.univer.db.entity.GroupEntity;
-import com.demo.univer.db.repository.GroupAndStatRepository;
+import com.demo.univer.db.projection.StatGroupProjection;
 import com.demo.univer.db.repository.GroupRepository;
 import com.demo.univer.db.service.GroupDbService;
 import com.demo.univer.error.ErrorFactory;
@@ -19,18 +18,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GroupDbServiceImpl implements GroupDbService {
     private final GroupRepository groupRepository;
-    private final GroupAndStatRepository groupAndStatRepository;
     private final ErrorFactory errorFactory;
 
     @Override
-    public List<StatGroupEntity> getAllGroups() {
-        return groupAndStatRepository.getAll();
+    public List<StatGroupProjection> getAllGroups() {
+        return groupRepository.getAllWithMemberCount();
     }
 
     @Override
-    public GroupEntity create(String name) {
+    public GroupEntity create(String name, int maxMemberCount) {
         GroupEntity groupEntity = GroupEntity.builder()
                 .name(name)
+                .maxMemberCount(maxMemberCount)
                 .build();
 
         try {
@@ -46,13 +45,6 @@ public class GroupDbServiceImpl implements GroupDbService {
     @Override
     public GroupEntity getGroup(long groupId) {
         return groupRepository.findById(groupId)
-                .orElseThrow(() ->
-                        errorFactory.create(ErrorType.GROUP_NOT_FOUND));
-    }
-
-    @Override
-    public void checkGroupExists(long groupId) {
-        groupRepository.findById(groupId)
                 .orElseThrow(() ->
                         errorFactory.create(ErrorType.GROUP_NOT_FOUND));
     }

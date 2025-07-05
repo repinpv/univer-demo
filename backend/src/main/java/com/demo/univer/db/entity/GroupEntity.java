@@ -15,4 +15,6 @@ public class GroupEntity {
     Long id;
     @Column("name")
     String name;
+    @Column("max_member_count")
+    Integer maxMemberCount;
 }

@@ -1,7 +1,7 @@
 package com.demo.univer.mapper;
 
 import com.demo.univer.db.entity.GroupEntity;
-import com.demo.univer.db.entity.StatGroupEntity;
+import com.demo.univer.db.projection.StatGroupProjection;
 import com.demo.univer.grpc.group.v1.ExtGroup;
 import com.demo.univer.grpc.group.v1.Group;
 import org.springframework.stereotype.Component;
@@ -17,14 +17,14 @@ public class GroupMapper {
                 .build();
     }
 
-    public ExtGroup map(StatGroupEntity statGroupEntity) {
+    public ExtGroup map(StatGroupProjection statGroupProjection) {
         int memberCount = Optional.ofNullable(
-                        statGroupEntity.getMemberCount())
+                        statGroupProjection.memberCount())
                 .orElse(0);
 
         return ExtGroup.newBuilder()
-                .setId(statGroupEntity.getId())
-                .setName(statGroupEntity.getName())
+                .setId(statGroupProjection.id())
+                .setName(statGroupProjection.name())
                 .setMemberCount(memberCount)
                 .build();
     }

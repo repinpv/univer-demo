@@ -43,8 +43,9 @@ public class GroupGrpcService extends GroupServiceGrpc.GroupServiceImplBase {
     public void createGroup(CreateGroupRequest request, StreamObserver<CreateGroupResponse> responseObserver) {
         String name = request.getName();
         groupNameValidator.validate(name);
+        int maxMemberCount = request.getMaxMemberCount();
 
-        GroupEntity groupEntity = groupDbService.create(name);
+        GroupEntity groupEntity = groupDbService.create(name, maxMemberCount);
         Group group = groupMapper.map(groupEntity);
 
         CreateGroupResponse response = CreateGroupResponse.newBuilder()
